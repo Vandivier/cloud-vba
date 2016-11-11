@@ -25,5 +25,8 @@ One nifty pattern is to have the message trigger a localStorage event by writing
 Such communication can be done in the background without user interaction as well.
 You can hide the Word splash if you use a custom protocol hooked to a custom registry entry. That entry can call Word in silent mode.
 
+Troubleshooting:
+  - If you have issues activating macros, go to Word -> File -> Options -> Trust Center -> Trust Center Settings and lower your restrictions.
+
 Tech notes and todos:
   - ref: https://expressjs.com/en/starter/hello-world.html
