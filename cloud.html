@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+</head>
+<body>
+<script>
+    var fxns = {
+        get: function (name) {
+            console.log('\nget', name);
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regexS = '[\\?&]' + name + '=([^&#]*)';
+            var regex = new RegExp(regexS);
+            var results = regex.exec(window.location.href);
+            if (results === null) {
+                console.log('results === null');
+                return '';
+            }
+            console.log('results', results);
+            return results[1];
+        },
+        send: function (strKey, objMessage) {
+            console.log('\nsend', strKey, objMessage);
+            if (!objMessage) {              //Always have at least an empty message
+                objMessage = {};
+            }
+            objMessage.time = new Date().getTime();
+            fxns.set(strKey, objMessage);
+        },
+        set: function (key, value, session) {
+            console.log('\nset', key, value, session);
+            var userLocalStorage = window.localStorage;
+            var userSessionStorage = window.sessionStorage;
+            var val = null || value;
+            if (typeof value === 'object') {
+                val = JSON.stringify(value);
+            }
+            (session ? userSessionStorage : userLocalStorage).setItem(key, val);
+        }
+    };
+
+    try {
+        var action = fxns.get('action'),
+            data = fxns.get('data'),
+            optionsObj;
+
+        optionsObj = {
+            data: data
+        };
+
+        //document.title = action + ' - ' + JSON.stringify(optionsObj);
+
+        if (action) {
+            switch (action) {
+              //prep as needed, or just send raw data to app
+            }
+            fxns.send('cloud-message', {action: action, options: optionsObj});
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+
+    window.close();
+
+</script>
+</body>
+</html>
