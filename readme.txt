@@ -3,30 +3,24 @@ Cloud VBA
 Two-way communication between Word VBA and HTML5
 
 Prerequisites:
-1) Install Word 2013 or later
-2) Enable macros in Word
-3) NodeJS (or any server, the UI is agnostic, but I used Express)
+1) Word 2013 or later.
+2) NodeJS (UI is agnostic, but Express Node is configured for the packaged demo)
+3) Chrome (Easy change to work w/ others, not currently set up)
 
 Demo:
-1) In the command line, run "npm install" then "node app" to start the lightweight file server.
-2) Identify the local location of your messenger.docm. It's called localLocation in point 2.
-3) Access the following URL from your browser: ms-word:ofe|u|http://localhost:3000/files/cloud.docm?action=PromptUserForInput
-    Note: The reason we need a file server is because the protocol requires a remote URL. Local locations won't invoke the 
-          The protocol refers to ms-word:ofe|u|http://, as in window.location.protocol
-          The ms-word part by itself is called the scheme name
-          This approach leverages .\Microsoft Office\...\protocolhandler.exe via a registry entry to open a document by URL
-    Learn More: https://msdn.microsoft.com/en-us/library/office/dn906146.aspx
-3) Allow Word to open the cloud.docm document.
-4) Answer the prompt.
-5) Notice a web page open with your input.
+1) In the command line, "npm install" then "node app"
+2) Add a popup blocker exception for http://localhost:3000/ in Chrome, then open that URL
+3) Click the button to Authorize Handler. If prompted, confirm Word is allowed to open documents from web.
+3) Click the button to Request Word Input. Allow Word to open the document with macros.
+4) Answer the prompt and confirm.
+5) Notice the input was added to the web page.
 
-That completes the 2-way communication demo, but in practice you can do much more than was shown.
-One nifty pattern is to have the message trigger a localStorage event by writing listeners in your larger JS app.
-Such communication can be done in the background without user interaction as well.
+That completes the 2-way communication demo.
 You can hide the Word splash if you use a custom protocol hooked to a custom registry entry. That entry can call Word in silent mode.
 
 Troubleshooting:
-  - If you have issues activating macros, go to Word -> File -> Options -> Trust Center -> Trust Center Settings and lower your restrictions.
+  - If you have issues activating macros, go to Word -> File -> Options -> Trust Center -> Trust Center Settings
+  - Lower the macro security settings and unset the preference to open documents in protected mode.
 
 Tech notes and todos:
   - ref: https://expressjs.com/en/starter/hello-world.html
