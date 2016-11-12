@@ -1,6 +1,17 @@
-let cloud = {
+let cloud = {                                                                         // could be a seperate module
   processStorageEvent: function(e) {
-    alert(JSON.stringify(e));
+    let oEvent = JSON.parse(e.newValue)
+
+    if (e.key === 'cloud-message') {
+      switch(oEvent.action) {
+        case 'userresponse':
+            $('#response-region').text(decodeURIComponent(oEvent.options.data))
+            break;
+        default:
+            // n/a
+      }
+    }
+
   }
 }
 
@@ -22,7 +33,7 @@ $(function(){
         sLocation += 'JustDie'                                                        // call the macro template and pass message by querystring
       }
       wCloud = window.open(sLocation, '_blank', sOptions)
-      wCloud.close();
+      setTimeout(function(){ wCloud.close() }, 250)
 
     });
 
